@@ -3,7 +3,7 @@ import cv2
 # import matplotlib.pyplot as plt
 
 
-def show_image(_arr):
+def show_image(_arr, time=0):
     _arr[_arr == 0] = 255
     _arr[_arr == 1] = 0
     length, width = _arr.shape
@@ -12,7 +12,7 @@ def show_image(_arr):
     cv2.imwrite('./1.png', _arr)
     cv2.namedWindow('Image', cv2.WINDOW_GUI_EXPANDED)
     cv2.imshow("Image", _arr)
-    cv2.waitKey(0)
+    cv2.waitKey(time)
 
 
 

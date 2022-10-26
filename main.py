@@ -1,50 +1,55 @@
-import numpy as np
 import ca_visualization as vis
+import ca_core as core
 from argparse import ArgumentParser
 
 
-def main(verbose, gui, timesteps):
-    print("Initializing...")
+def main(verbose, headless, timesteps):
+    print("Initializing...") if verbose else None
+    ca = core.CA(24, 25, timesteps, verbose=verbose)
+    ca.set_initial_state()
+    print("Running CA for {} timesteps...".format(timesteps))
+    for t in range(timesteps):
+        ca.update(t)
 
-    state = np.random.randint(0, 2, (10000, 5000)).astype(np.float32)
-    if gui:
-        vis.show_image(state)
+    print("\nFinished {} time steps. CA terminated.\n".format(timesteps))
+    if not headless:
+        vis.show_image(ca.state)
 
 
-if __name__ == '__main__':
+def parse_args():
     parser = ArgumentParser()
-    
     parser.add_argument(
         "-v",
         "--Verbose",
-        type = bool,
-        default = True,
+        action = 'store_true',
         help = (
-            "If True, the system will print all available runtime information to the console.\n"
-            "If False, only warnings and errors will be printed. True by default."
+            "If specified, the system will print all available runtime information to the console.\n"
+            "If not specified, only warnings and errors will be printed."
         )
     )
     parser.add_argument(
-        "-g",
-        "--ShowGui",
-        type = bool,
-        default = True,
+        "-l",
+        "--Headless",
+        action = 'store_true',
         help = (
-            "If True, the system will run with a graphical user interface.\n"
-            "If False, the system will run as a background process. True by default."
+            "If specified, the system will run without a graphical user interface.\n"
         )
     )
     parser.add_argument(
         "-t",
         "--Timesteps",
         type = int,
+        default = 5000,
         help = (
             "Defines the number of timesteps that the cellular automaton should run for."
         )
     )
-
     args = parser.parse_args()
-    print("args: ", args)
 
-    main(args.Verbose, args.ShowGui, args.Timesteps)
+    return args
+
+
+if __name__ == '__main__':
+    args = parse_args()
+    main(args.Verbose, args.Headless, args.Timesteps)
 
