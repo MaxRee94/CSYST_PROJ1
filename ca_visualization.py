@@ -4,14 +4,15 @@ import cv2
 
 
 def show_image(_arr, time=0):
-    _arr[_arr == 0] = 255
-    _arr[_arr == 1] = 0
-    length, width = _arr.shape
-    _arr = np.reshape(_arr, (length, width, 1))
-    _arr = np.repeat(_arr, 3, axis=2)
-    cv2.imwrite('./1.png', _arr)
+    arr = _arr.copy()
+    arr[arr == 0] = 255
+    arr[arr == 1] = 0
+    length, width = arr.shape
+    arr = np.reshape(arr, (length, width, 1))
+    arr = np.repeat(arr, 3, axis=2)
+    cv2.imwrite('./1.png', arr)
     cv2.namedWindow('Image', cv2.WINDOW_GUI_EXPANDED)
-    cv2.imshow("Image", _arr)
+    cv2.imshow("Image", arr)
     cv2.waitKey(time)
 
 

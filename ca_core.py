@@ -1,15 +1,17 @@
 import numpy as np
+import random
 
 
 class CA:
 
-    def __init__(self, f1, f2, timesteps, verbose=True, size=10000):
+    def __init__(self, f1, f2, timesteps, _lambda, verbose=True, size=10000):
         self.verbose = verbose
         self.size = size
         self.state = None
         self.f1_rule = f1
         self.f2_rule = f2
         self.timesteps = timesteps
+        self._lambda = _lambda
 
     def set_initial_state(self):
         self.state = np.random.randint(0, 2, (self.timesteps, self.size)).astype(np.float32)
@@ -45,7 +47,8 @@ class CA:
             rule_index = self.get_rule_index(local_triple)
             self.state[t][i] = int(binary_rule[rule_index])
 
-    def update(self, t):        
-        self.apply_rule(t, self.state[t - 1], self.f1_rule)
-
-
+    def update(self, t):
+        if random.uniform(0, 1.0) < self._lambda:
+            self.apply_rule(t, self.state[t - 1], self.f2_rule)
+        else:
+            self.apply_rule(t, self.state[t - 1], self.f1_rule)

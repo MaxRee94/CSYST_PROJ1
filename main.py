@@ -3,14 +3,14 @@ import ca_core as core
 from argparse import ArgumentParser
 
 
-def main(verbose, headless, timesteps):
+def main(verbose, headless, timesteps, f1, f2, _lambda):
     print("Initializing...") if verbose else None
-    ca = core.CA(204, 204, timesteps, verbose=verbose)
+    ca = core.CA(f1, f2, timesteps, _lambda, verbose=verbose)
     ca.set_initial_state()
     print("Running CA for {} timesteps...".format(timesteps))
     for t in range(timesteps):
         if verbose and t % 100 == 0:
-            print("Iteration {}/{}".format(t, timesteps))
+           print("Iteration {}/{}".format(t, timesteps))
         ca.update(t)
 
     print("\nFinished {} time steps. CA terminated.\n".format(timesteps))
@@ -30,7 +30,7 @@ def parse_args():
         )
     )
     parser.add_argument(
-        "-l",
+        "-g",
         "--Headless",
         action = 'store_true',
         help = (
@@ -46,6 +46,28 @@ def parse_args():
             "Defines the number of timesteps that the cellular automaton should run for."
         )
     )
+    parser.add_argument(
+        "-f1",
+        type = int,
+        help = (
+            "Defines rule f1"
+        )
+    )
+    parser.add_argument(
+        "-f2",
+        type = int,
+        help = (
+            "Defines rule f2"
+        )
+    )
+    parser.add_argument(
+        "-l",
+        "--Lambda",
+        type = float,
+        help = (
+            "Value between 0 and 1 that defines the probability that rule f2 will be chosen over f1"
+        )
+    )
     args = parser.parse_args()
 
     return args
@@ -53,5 +75,5 @@ def parse_args():
 
 if __name__ == '__main__':
     args = parse_args()
-    main(args.Verbose, args.Headless, args.Timesteps)
+    main(args.Verbose, args.Headless, args.Timesteps, args.f1, args.f2, args.Lambda)
 
