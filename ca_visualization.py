@@ -2,13 +2,13 @@ import numpy as np
 import cv2
 # import matplotlib.pyplot as plt
 
-def get_imagepath(timesteps, f1, f2, _lambda):
-    path = "./timesteps-{}__f1-{}__f2-{}__lambda-{}.png".format(timesteps, f1, f2, _lambda)
+def get_imagepath(timesteps, f1, f2, _lambda, size):
+    path = "./timesteps-{}__f1-{}__f2-{}__lambda-{}__size-{}.png".format(timesteps, f1, f2, _lambda, size)
 
     return path
 
-def write_image(arr, timesteps, f1, f2, _lambda):
-    fpath = get_imagepath(timesteps, f1, f2, _lambda)
+def write_image(arr, timesteps, f1, f2, _lambda, size):
+    fpath = get_imagepath(timesteps, f1, f2, _lambda, size)
     if np.max(arr) == 1:
         arr *= 255
     cv2.imwrite(fpath, arr)

@@ -2,9 +2,9 @@ import ca_visualization as vis
 import ca_core as core
 from argparse import ArgumentParser
 
-def main(headless, timesteps, f1, f2, _lambda):
+def main(headless, timesteps, f1, f2, _lambda, size):
     print("Initializing...")
-    ca = core.CA(f1, f2, timesteps, _lambda)
+    ca = core.CA(f1, f2, timesteps, _lambda, size)
     ca.set_initial_state()
     print("Running CA for {} timesteps...".format(timesteps))
     for t in range(timesteps):
@@ -13,7 +13,7 @@ def main(headless, timesteps, f1, f2, _lambda):
         ca.update(t)
 
     print("\nFinished {} time steps. CA terminated.\nWriting image to file...\n".format(timesteps))
-    fpath = vis.write_image(ca.state, timesteps, f1, f2, _lambda)
+    fpath = vis.write_image(ca.state, timesteps, f1, f2, _lambda, size)
     print("Image written to file at {}".format(fpath))
 
     if not headless:
@@ -37,6 +37,15 @@ def parse_args():
         default = 5000,
         help = (
             "Defines the number of timesteps that the cellular automaton should run for. Defaults to 5000"
+        )
+    )
+    parser.add_argument(
+        "-s",
+        "--Size",
+        type = int,
+        default = 10000,
+        help = (
+            "Defines the number of cells in an iteration. Defaults to 10000"
         )
     )
     parser.add_argument(
@@ -71,5 +80,5 @@ def parse_args():
 
 if __name__ == '__main__':
     args = parse_args()
-    main(args.Headless, args.Timesteps, args.f1, args.f2, args.Lambda)
+    main(args.Headless, args.Timesteps, args.f1, args.f2, args.Lambda, args.Size)
 

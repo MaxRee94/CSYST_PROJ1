@@ -4,7 +4,7 @@ import random
 
 class CA:
 
-    def __init__(self, f1, f2, timesteps, _lambda, size=10000):
+    def __init__(self, f1, f2, timesteps, _lambda, size):
         self.size = size
         self.state = None
         self.f1_rule = self.get_binary_string(f1)
