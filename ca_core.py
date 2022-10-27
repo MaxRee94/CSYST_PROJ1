@@ -17,7 +17,7 @@ class CA:
         self.state = np.random.randint(0, 2, (self.timesteps, self.size)).astype(np.float32)
 
     def get_local_neighborhood(self, prev_state, index):
-        # Obtain neihbors, with boundary condition
+        # Obtain neighbors, with boundary condition
         if index != 0:
             left = int(prev_state[index - 1])
         else:
