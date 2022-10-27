@@ -8,10 +8,14 @@ class CA:
         self.verbose = verbose
         self.size = size
         self.state = None
-        self.f1_rule = f1
-        self.f2_rule = f2
+        self.f1_rule = self.get_binary_string(f1)
+        self.f2_rule = self.get_binary_string(f2)
         self.timesteps = timesteps
         self._lambda = _lambda
+
+    def get_binary_string(self, number8bit):
+        binary_string = '{0:08b}'.format(number8bit)
+        return binary_string[::-1] # return binary string in reverse, so that lower powers of 2 come first
 
     def set_initial_state(self):
         self.state = np.random.randint(0, 2, (self.timesteps, self.size)).astype(np.float32)
@@ -42,10 +46,9 @@ class CA:
             return np.random.choice([0, 1], size=(self.size,), p=[0.5, 0.5])
 
         for i in range(self.size):
-            binary_rule = '{0:08b}'.format(rule)
             local_triple = self.get_local_neighborhood(prev_state, i)
             rule_index = self.get_rule_index(local_triple)
-            self.state[t][i] = int(binary_rule[rule_index])
+            self.state[t][i] = int(rule[rule_index])
 
     def update(self, t):
         if random.uniform(0, 1.0) < self._lambda:
