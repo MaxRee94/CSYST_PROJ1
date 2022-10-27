@@ -4,8 +4,7 @@ import random
 
 class CA:
 
-    def __init__(self, f1, f2, timesteps, _lambda, verbose=True, size=10000):
-        self.verbose = verbose
+    def __init__(self, f1, f2, timesteps, _lambda, size=10000):
         self.size = size
         self.state = None
         self.f1_rule = self.get_binary_string(f1)
@@ -42,7 +41,7 @@ class CA:
 
     def apply_rule(self, t, prev_state, rule):
         if rule is None:
-            print("Returning random iteration because no rule was specified") if self.verbose else None
+            print("Returning random iteration because no rule was specified")
             return np.random.choice([0, 1], size=(self.size,), p=[0.5, 0.5])
 
         for i in range(self.size):

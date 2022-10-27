@@ -3,7 +3,7 @@ import cv2
 # import matplotlib.pyplot as plt
 
 def get_imagepath(timesteps, f1, f2, _lambda):
-    path = "./timesteps_{},f1_{},f2_{},lambda_{}.png".format(timesteps, f1, f2, _lambda)
+    path = "./timesteps-{}__f1-{}__f2-{}__lambda-{}.png".format(timesteps, f1, f2, _lambda)
 
     return path
 
