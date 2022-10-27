@@ -5,10 +5,12 @@ from argparse import ArgumentParser
 
 def main(verbose, headless, timesteps):
     print("Initializing...") if verbose else None
-    ca = core.CA(24, 25, timesteps, verbose=verbose)
+    ca = core.CA(204, 204, timesteps, verbose=verbose)
     ca.set_initial_state()
     print("Running CA for {} timesteps...".format(timesteps))
     for t in range(timesteps):
+        if verbose and t % 100 == 0:
+            print("Iteration {}/{}".format(t, timesteps))
         ca.update(t)
 
     print("\nFinished {} time steps. CA terminated.\n".format(timesteps))
