@@ -39,18 +39,18 @@ class CA:
         local_triple_string = (str(local_triple[0]) + str(local_triple[1]) + str(local_triple[2]))
         return int(local_triple_string, 2)
 
-    def apply_rule(self, t, prev_state, rule):
-        if rule is None:
-            print("Returning random iteration because no rule was specified")
-            return np.random.choice([0, 1], size=(self.size,), p=[0.5, 0.5])
+    def apply_rule(self, t):
+        prev_state = self.state[t-1]
 
         for i in range(self.size):
+            if random.uniform(0, 1.0) < self._lambda:
+                rule = self.f2_rule
+            else:
+                rule = self.f1_rule
+
             local_triple = self.get_local_neighborhood(prev_state, i)
             rule_index = self.get_rule_index(local_triple)
             self.state[t][i] = int(rule[rule_index])
 
     def update(self, t):
-        if random.uniform(0, 1.0) < self._lambda:
-            self.apply_rule(t, self.state[t - 1], self.f2_rule)
-        else:
-            self.apply_rule(t, self.state[t - 1], self.f1_rule)
+        self.apply_rule(t)
